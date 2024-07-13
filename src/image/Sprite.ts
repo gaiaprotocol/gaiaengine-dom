@@ -4,6 +4,8 @@ import SpritesheetData from "./SpritesheetData.js";
 
 export default class Sprite extends Node {
   private _src: string | undefined;
+  private width: number | undefined;
+  private height: number | undefined;
 
   constructor(
     x: number,
@@ -25,17 +27,32 @@ export default class Sprite extends Node {
       if (!texture || this.deleted) return;
 
       const frame = this.atlas.frames[this.frame].frame;
+
+      if (this.width === undefined) this.width = frame.w;
+      if (this.height === undefined) this.height = frame.h;
+
       this.container.style.backgroundImage = `url(${src})`;
-      this.container.style.width = `${frame.w}px`;
-      this.container.style.height = `${frame.h}px`;
-      this.container.style.backgroundPosition = `-${frame.x}px -${frame.y}px`;
+      this.container.style.width = `${this.width}px`;
+      this.container.style.height = `${this.height}px`;
+
+      const scaleX = this.width / frame.w;
+      const scaleY = this.height / frame.h;
+      this.container.style.backgroundSize = `${texture.width * scaleX}px ${
+        texture.height * scaleY
+      }px`;
+      this.container.style.backgroundPosition = `-${frame.x * scaleX}px -${
+        frame.y * scaleY
+      }px`;
     } else {
       const texture = await TextureLoader.load(src);
       if (!texture || this.deleted) return;
 
+      if (this.width === undefined) this.width = texture.width;
+      if (this.height === undefined) this.height = texture.height;
+
       this.container.style.backgroundImage = `url(${src})`;
-      this.container.style.width = `${texture.width}px`;
-      this.container.style.height = `${texture.height}px`;
+      this.container.style.width = `${this.width}px`;
+      this.container.style.height = `${this.height}px`;
     }
 
     if (this.onLoaded) this.onLoaded();
@@ -50,6 +67,13 @@ export default class Sprite extends Node {
 
   public get src() {
     return this._src ?? "";
+  }
+
+  public setSize(width: number, height: number): void {
+    this.width = width;
+    this.height = height;
+    this.container.style.width = `${width}px`;
+    this.container.style.height = `${height}px`;
   }
 
   public delete(): void {
