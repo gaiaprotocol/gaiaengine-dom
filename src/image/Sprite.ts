@@ -30,14 +30,13 @@ export default class Sprite extends BaseSprite {
 
       const frameData = this.atlas.frames[this.frame].frame;
 
-      this.imageElement.style.backgroundImage = `url(${src})`;
-      this.imageElement.style.width = `${frameData.w}px`;
-      this.imageElement.style.height = `${frameData.h}px`;
-
       const textureScale = this.atlas.meta.scale === "auto"
         ? 1
         : Number(this.atlas.meta.scale);
 
+      this.imageElement.style.backgroundImage = `url(${src})`;
+      this.imageElement.style.width = `${frameData.w * textureScale}px`;
+      this.imageElement.style.height = `${frameData.h * textureScale}px`;
       this.imageElement.style.backgroundSize = `${
         texture.width * textureScale
       }px ${texture.height * textureScale}px`;
