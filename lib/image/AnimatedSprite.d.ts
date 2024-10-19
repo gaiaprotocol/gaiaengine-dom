@@ -4,6 +4,7 @@ export default class AnimatedSprite extends BaseSprite {
     private atlas;
     private animation;
     private fps;
+    private imageElement;
     private frames;
     private frameDuration;
     private textureScale;

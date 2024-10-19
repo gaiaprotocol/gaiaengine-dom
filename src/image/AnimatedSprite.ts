@@ -3,6 +3,7 @@ import BaseSprite from "./BaseSprite.js";
 import SpritesheetData from "./SpritesheetData.js";
 
 export default class AnimatedSprite extends BaseSprite {
+  private imageElement: HTMLDivElement;
   private frames: string[];
   private frameDuration: number;
   private textureScale: number = 1;
@@ -18,7 +19,10 @@ export default class AnimatedSprite extends BaseSprite {
     private fps: number,
   ) {
     super(x, y);
-    this.src = src;
+
+    this.imageElement = document.createElement("div");
+    this.imageElement.style.transform = "translate(-50%, -50%)";
+    this.container.appendChild(this.imageElement);
 
     const frames = this.atlas.animations?.[this.animation];
     if (!frames || frames.length === 0) {
@@ -28,6 +32,8 @@ export default class AnimatedSprite extends BaseSprite {
     }
     this.frames = frames;
     this.frameDuration = 1 / this.fps;
+
+    this.src = src;
   }
 
   protected async loadTexture(src: string) {
@@ -37,18 +43,18 @@ export default class AnimatedSprite extends BaseSprite {
     const frameName = this.frames[this.currentFrameIndex];
     const frameData = this.atlas.frames[frameName].frame;
 
-    this.container.style.backgroundImage = `url(${src})`;
-    this.container.style.width = `${frameData.w}px`;
-    this.container.style.height = `${frameData.h}px`;
+    this.imageElement.style.backgroundImage = `url(${src})`;
+    this.imageElement.style.width = `${frameData.w}px`;
+    this.imageElement.style.height = `${frameData.h}px`;
 
     this.textureScale = this.atlas.meta.scale === "auto"
       ? 1
       : Number(this.atlas.meta.scale);
 
-    this.container.style.backgroundSize = `${
+    this.imageElement.style.backgroundSize = `${
       texture.width * this.textureScale
     }px ${texture.height * this.textureScale}px`;
-    this.container.style.backgroundPosition = `-${
+    this.imageElement.style.backgroundPosition = `-${
       frameData.x * this.textureScale
     }px -${frameData.y * this.textureScale}px`;
   }
@@ -70,11 +76,11 @@ export default class AnimatedSprite extends BaseSprite {
       const frameName = this.frames[this.currentFrameIndex];
       const frameData = this.atlas.frames[frameName].frame;
 
-      this.container.style.backgroundPosition = `-${
+      this.imageElement.style.backgroundPosition = `-${
         frameData.x * this.textureScale
       }px -${frameData.y * this.textureScale}px`;
-      this.container.style.width = `${frameData.w}px`;
-      this.container.style.height = `${frameData.h}px`;
+      this.imageElement.style.width = `${frameData.w}px`;
+      this.imageElement.style.height = `${frameData.h}px`;
     }
   }
 }
