@@ -12,4 +12,7 @@ export default interface SpritesheetData {
   meta: {
     scale: number | string;
   };
+  animations?: {
+    [key: string]: string[];
+  };
 }
