@@ -13,6 +13,7 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement>
 
   private updateTransform(): void {
     const { x, y, scaleX, scaleY } = this.transform;
+    this.container.style.position = "absolute";
     this.container.style.transform =
       `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`;
   }

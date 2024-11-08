@@ -19,7 +19,9 @@ export default class GameScreen extends DomNode {
     public height: number,
     ...gameNodes: (GameNode | undefined)[]
   ) {
-    super();
+    super(".game-screen");
+    this.style({ overflow: "hidden" });
+
     this.root.setScreen(this).append(...gameNodes);
     this.createRenderer();
 
@@ -27,14 +29,17 @@ export default class GameScreen extends DomNode {
     this.onWindow("focus", () => this.actualFPS = this.targetFPS);
   }
 
-  protected resize(width: number, height: number, ratio = 1) {
+  public resize(width: number, height: number, ratio = 1) {
     this.width = width;
     this.height = height;
     this.ratio = ratio;
 
     this.style({
-      width: `${this.width * this.ratio}px`,
-      height: `${this.height * this.ratio}px`,
+      width: `${this.width}px`,
+      height: `${this.height}px`,
+      transform: `translate(${(this.width * this.ratio - this.width) / 2}px, ${
+        (this.height * this.ratio - this.height) / 2
+      }px) scale(${this.ratio})`,
     });
   }
 
