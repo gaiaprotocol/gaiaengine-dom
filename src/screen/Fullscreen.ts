@@ -1,4 +1,4 @@
-import { BodyNode } from "@common-module/app";
+import { BodyNode } from "@commonmodule/app";
 import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
 
