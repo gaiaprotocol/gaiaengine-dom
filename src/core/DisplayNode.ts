@@ -43,11 +43,11 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement>
     return this;
   }
 
-  public set zIndex(zIndex: number) {
-    this.container.style.zIndex = `${zIndex}`;
+  public set drawingOrder(drawingOrder: number) {
+    this.container.style.zIndex = `${drawingOrder}`;
   }
 
-  public get zIndex(): number {
+  public get drawingOrder(): number {
     return parseInt(this.container.style.zIndex || "0", 10);
   }
 

@@ -9,8 +9,8 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement> extends T
     set y(y: number);
     get y(): number;
     setPosition(x: number, y: number): this;
-    set zIndex(zIndex: number);
-    get zIndex(): number;
+    set drawingOrder(drawingOrder: number);
+    get drawingOrder(): number;
     set scaleX(scaleX: number);
     get scaleX(): number;
     set scaleY(scaleY: number);
