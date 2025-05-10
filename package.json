@@ -2,12 +2,12 @@
   "name": "@gaiaengine/dom",
   "author": "Gaia Protocol",
   "homepage": "https://gaiaprotocol.com",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",
   "dependencies": {
-    "@commonmodule/app": "^0.2.6"
+    "@commonmodule/app": "^0.3.6"
   },
   "devDependencies": {}
 }

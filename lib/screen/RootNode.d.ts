@@ -1,9 +1,9 @@
 import GameObject from "../core/GameObject.js";
 import GameScreen from "./GameScreen.js";
-export default class RootNode extends GameObject {
+export default class SuperRootNode extends GameObject {
     constructor();
     setScreen(screen: GameScreen | undefined): this;
-    getContainer(): HTMLElement;
+    getContainer(): HTMLDivElement;
     update(deltaTime: number): void;
 }
 //# sourceMappingURL=RootNode.d.ts.map

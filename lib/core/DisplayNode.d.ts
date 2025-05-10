@@ -1,7 +1,9 @@
+import { EventHandlers } from "@commonmodule/ts";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
-export default class DisplayNode<CT extends HTMLElement = HTMLElement> extends TransformableNode {
+export default class DisplayNode<CT extends HTMLElement = HTMLElement, E extends EventHandlers = {}> extends TransformableNode<E> {
     protected container: CT;
+    private _useYForDrawingOrder;
     constructor(container: CT);
     private updateTransform;
     set x(x: number);
@@ -11,6 +13,9 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement> extends T
     setPosition(x: number, y: number): this;
     set drawingOrder(drawingOrder: number);
     get drawingOrder(): number;
+    enableYBasedDrawingOrder(): void;
+    disableYBasedDrawingOrder(): void;
+    private updateDrawingOrder;
     set scaleX(scaleX: number);
     get scaleX(): number;
     set scaleY(scaleY: number);

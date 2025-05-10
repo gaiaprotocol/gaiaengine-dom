@@ -1,16 +1,19 @@
-import { DomNode } from "@commonmodule/app";
+import { AppRoot, Dom } from "@commonmodule/app";
 import GameNode from "../core/GameNode.js";
+import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";
-import RootNode from "./RootNode.js";
+import SuperRootNode from "./RootNode.js";
 
-export default class GameScreen extends DomNode {
+export default class GameScreen extends Dom {
   private animationInterval: number | undefined;
 
   private targetFPS: number | undefined;
   private actualFPS: number | undefined;
 
-  public root = new RootNode();
+  private superRoot = new SuperRootNode();
+
   public camera = new Camera(this);
+  public root = new GameObject(0, 0);
 
   public ratio = 1;
 
@@ -22,11 +25,12 @@ export default class GameScreen extends DomNode {
     super(".game-screen");
     this.style({ overflow: "hidden" });
 
-    this.root.setScreen(this).append(...gameNodes);
+    this.superRoot.setScreen(this).append(...gameNodes);
+    this.root.appendTo(this.superRoot);
     this.createRenderer();
 
-    this.onWindow("blur", () => this.actualFPS = 6);
-    this.onWindow("focus", () => this.actualFPS = this.targetFPS);
+    AppRoot.bind(this, "blur", () => this.actualFPS = 6);
+    AppRoot.bind(this, "focus", () => this.actualFPS = this.targetFPS);
   }
 
   public resize(width: number, height: number, ratio = 1) {
@@ -44,13 +48,13 @@ export default class GameScreen extends DomNode {
   }
 
   private async createRenderer() {
-    this.root.setPosition(
-      this.width / 2 - this.camera.x * this.camera.scale,
-      this.height / 2 - this.camera.y * this.camera.scale,
+    this.superRoot.setPosition(
+      this.width / 2 - this.camera.getX() * this.camera.scale,
+      this.height / 2 - this.camera.getY() * this.camera.scale,
     );
 
     this.resize(this.width, this.height, this.ratio);
-    this.htmlElement.appendChild(this.root.getContainer());
+    this.htmlElement.appendChild(this.superRoot.getContainer());
     this.animationInterval = requestAnimationFrame(this.animate);
 
     this.updateRootNodePosition();
@@ -59,13 +63,13 @@ export default class GameScreen extends DomNode {
   public updateRootNodePosition() {
     this.root.scale = this.camera.scale;
     this.root.setPosition(
-      this.width / 2 - this.camera.x * this.camera.scale,
-      this.height / 2 - this.camera.y * this.camera.scale,
+      this.width / 2 - this.camera.getX() * this.camera.scale,
+      this.height / 2 - this.camera.getY() * this.camera.scale,
     );
   }
 
   private update(deltaTime: number) {
-    this.root.update(deltaTime);
+    this.superRoot.update(deltaTime);
   }
 
   private lastFrameTime = 0;

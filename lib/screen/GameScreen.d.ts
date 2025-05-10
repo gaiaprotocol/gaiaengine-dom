@@ -1,15 +1,16 @@
-import { DomNode } from "@commonmodule/app";
+import { Dom } from "@commonmodule/app";
 import GameNode from "../core/GameNode.js";
+import GameObject from "../core/GameObject.js";
 import Camera from "./Camera.js";
-import RootNode from "./RootNode.js";
-export default class GameScreen extends DomNode {
+export default class GameScreen extends Dom {
     width: number;
     height: number;
     private animationInterval;
     private targetFPS;
     private actualFPS;
-    root: RootNode;
+    private superRoot;
     camera: Camera;
+    root: GameObject<{}>;
     ratio: number;
     constructor(width: number, height: number, ...gameNodes: (GameNode | undefined)[]);
     resize(width: number, height: number, ratio?: number): void;

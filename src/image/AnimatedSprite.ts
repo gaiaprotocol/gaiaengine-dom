@@ -38,7 +38,7 @@ export default class AnimatedSprite extends BaseSprite {
 
   protected async loadTexture(src: string) {
     const texture = await TextureLoader.load(src);
-    if (!texture || this.removed) return;
+    if (!texture || this.isRemoved()) return;
 
     const frameName = this.frames[this.currentFrameIndex];
     const frameData = this.atlas.frames[frameName].frame;

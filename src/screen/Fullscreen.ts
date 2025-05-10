@@ -1,4 +1,4 @@
-import { BodyNode } from "@commonmodule/app";
+import { AppRoot } from "@commonmodule/app";
 import GameNode from "../core/GameNode.js";
 import GameScreen from "./GameScreen.js";
 
@@ -9,6 +9,6 @@ export default class Fullscreen extends GameScreen {
       window.innerHeight,
       ...gameNodes,
     );
-    this.appendTo(BodyNode);
+    this.appendTo(AppRoot);
   }
 }

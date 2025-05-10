@@ -1,13 +1,15 @@
+import { EventHandlers } from "@commonmodule/ts";
 import GameNode from "./GameNode.js";
 import TransformableNode from "./TransformableNode.js";
 
-export default class DisplayNode<CT extends HTMLElement = HTMLElement>
-  extends TransformableNode {
+export default class DisplayNode<
+  CT extends HTMLElement = HTMLElement,
+  E extends EventHandlers = {},
+> extends TransformableNode<E> {
+  private _useYForDrawingOrder: boolean = false;
+
   constructor(protected container: CT) {
-    super(
-      container.offsetLeft || 0,
-      container.offsetTop || 0,
-    );
+    super(container.offsetLeft || 0, container.offsetTop || 0);
     this.updateTransform();
   }
 
@@ -30,6 +32,9 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement>
   public set y(y: number) {
     this.transform.y = y;
     this.updateTransform();
+    if (this._useYForDrawingOrder) {
+      this.updateDrawingOrder();
+    }
   }
 
   public get y(): number {
@@ -40,6 +45,9 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement>
     this.transform.x = x;
     this.transform.y = y;
     this.updateTransform();
+    if (this._useYForDrawingOrder) {
+      this.updateDrawingOrder();
+    }
     return this;
   }
 
@@ -49,6 +57,19 @@ export default class DisplayNode<CT extends HTMLElement = HTMLElement>
 
   public get drawingOrder(): number {
     return parseInt(this.container.style.zIndex || "0", 10);
+  }
+
+  public enableYBasedDrawingOrder() {
+    this._useYForDrawingOrder = true;
+    this.updateDrawingOrder();
+  }
+
+  public disableYBasedDrawingOrder() {
+    this._useYForDrawingOrder = false;
+  }
+
+  private updateDrawingOrder() {
+    this.drawingOrder = this.y;
   }
 
   public set scaleX(scaleX: number) {

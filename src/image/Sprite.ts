@@ -26,7 +26,7 @@ export default class Sprite extends BaseSprite {
       if (!this.frame) throw new Error("Frame not found");
 
       const texture = await TextureLoader.load(src);
-      if (!texture || this.removed) return;
+      if (!texture || this.isRemoved()) return;
 
       const frameData = this.atlas.frames[this.frame].frame;
 
@@ -45,7 +45,7 @@ export default class Sprite extends BaseSprite {
       }px -${frameData.y * textureScale}px`;
     } else {
       const texture = await TextureLoader.load(src);
-      if (!texture || this.removed) return;
+      if (!texture || this.isRemoved()) return;
 
       this.imageElement.style.backgroundImage = `url(${src})`;
       this.imageElement.style.width = `${texture.width}px`;

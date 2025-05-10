@@ -1,7 +1,8 @@
-import { TreeNode } from "@commonmodule/ts";
+import { EventHandlers, EventNode } from "@commonmodule/ts";
 import GameScreen from "../screen/GameScreen.js";
 
-export default abstract class GameNode extends TreeNode<GameNode> {
+export default abstract class GameNode<E extends EventHandlers = {}>
+  extends EventNode<GameNode, E> {
   private _screen: GameScreen | undefined;
 
   protected set screen(screen: GameScreen | undefined) {
@@ -28,7 +29,7 @@ export default abstract class GameNode extends TreeNode<GameNode> {
   }
 
   protected update(deltaTime: number): void {
-    if (!this.removed) {
+    if (!this.isRemoved()) {
       for (const child of this.children) {
         child.update(deltaTime);
       }
